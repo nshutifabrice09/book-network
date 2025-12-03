@@ -19,7 +19,7 @@ public class JwtService {
     private long jwtExpiration;
 
     private String secretKey;
-    public String generateToken(UserDetails) {
+    public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 

@@ -17,6 +17,7 @@ import java.util.Objects;
 @Service
 public class JwtService {
 
+    @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
     @Value("${application.security.jwt.secret-key}")

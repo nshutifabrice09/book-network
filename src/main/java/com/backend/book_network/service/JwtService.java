@@ -22,7 +22,7 @@ public class JwtService {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
 
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

@@ -19,7 +19,10 @@ public class BeansConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(
+            UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder
+    ) {
         DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
         daoAuthProvider.setUserDetailsService(userDetailsService);
         daoAuthProvider.setPasswordEncoder(passwordEncoder());

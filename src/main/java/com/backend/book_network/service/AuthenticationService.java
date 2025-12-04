@@ -1,12 +1,14 @@
 package com.backend.book_network.service;
 
 import com.backend.book_network.controller.RegistrationRequest;
+import com.backend.book_network.model.EmailTemplateName;
 import com.backend.book_network.model.Token;
 import com.backend.book_network.model.User;
 import com.backend.book_network.repository.RoleRepository;
 import com.backend.book_network.repository.TokenRepository;
 import com.backend.book_network.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +17,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final EmailService emailService;
 
-    public void register(RegistrationRequest registrationRequest) {
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activationUrl;
+
+    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenRepository tokenRepository, EmailService emailService) {
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
+        this.emailService = emailService;
+    }
+
+    public void register(RegistrationRequest registrationRequest) throws MessagingException {
         var userRole = roleRepository.findRoleByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized!"));
         var user = User.builder()
@@ -36,14 +49,21 @@ public class AuthenticationService {
                 .roles(List.of(userRole))
                 .build();
         userRepository.save(user);
-
         sendValidationEmail(user);
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
         //send email
-        
+        emailService.sendEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activationUrl,
+                newToken,
+                "Account activation"
+        );
+
     }
 
     private String generateAndSaveActivationToken(User user) {

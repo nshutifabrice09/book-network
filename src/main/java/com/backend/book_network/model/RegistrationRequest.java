@@ -1,4 +1,4 @@
-package com.backend.book_network.controller;
+package com.backend.book_network.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

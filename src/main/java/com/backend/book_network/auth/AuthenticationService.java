@@ -1,12 +1,13 @@
-package com.backend.book_network.service;
+package com.backend.book_network.auth;
 
-import com.backend.book_network.controller.RegistrationRequest;
+import com.backend.book_network.model.RegistrationRequest;
 import com.backend.book_network.model.EmailTemplateName;
 import com.backend.book_network.model.Token;
 import com.backend.book_network.model.User;
 import com.backend.book_network.repository.RoleRepository;
 import com.backend.book_network.repository.TokenRepository;
 import com.backend.book_network.repository.UserRepository;
+import com.backend.book_network.service.EmailService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,6 +90,5 @@ public class AuthenticationService {
         }
         return codeBuilder.toString();
     }
-
 
 }

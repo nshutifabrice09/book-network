@@ -1,5 +1,6 @@
 package com.backend.book_network.controller;
 
+import com.backend.book_network.auth.AuthenticationRequest;
 import com.backend.book_network.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -25,6 +26,11 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
         authenticationService.register(registrationRequest);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationRequest> authenticate(@RequestBody AuthenticationRequest authenticationRequest){
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 
 }

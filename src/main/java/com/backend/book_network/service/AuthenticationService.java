@@ -84,7 +84,7 @@ public class AuthenticationService {
         StringBuilder codeBuilder = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom();
         for(int i = 0; i < length; i++){
-            int randomIndex = secureRandom.nextInt(characters.length()); //0-9
+            int randomIndex = secureRandom.nextInt(characters.length());
             codeBuilder.append(characters.charAt(randomIndex));
         }
         return codeBuilder.toString();

@@ -32,4 +32,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 
+    @GetMapping("/activate-account")
+    public void confirm(@RequestBody String token) throws MessagingException {
+        authenticationService.activateAccount(token);
+    }
+
 }

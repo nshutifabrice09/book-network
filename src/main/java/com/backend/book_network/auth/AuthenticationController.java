@@ -1,5 +1,8 @@
 package com.backend.book_network.auth;
 
+import com.backend.book_network.auth.AuthenticationRequest;
+import com.backend.book_network.auth.AuthenticationResponse;
+import com.backend.book_network.auth.AuthenticationService;
 import com.backend.book_network.model.RegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -33,7 +36,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/activate-account")
-    public void confirm(@RequestBody String token) throws MessagingException {
+    public void confirm(@RequestParam String token) throws MessagingException {
         authenticationService.activateAccount(token);
     }
 

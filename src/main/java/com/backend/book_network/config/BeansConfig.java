@@ -71,4 +71,5 @@ public class BeansConfig {
         basedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(basedCorsConfigurationSource);
     }
+
 }
